@@ -41,7 +41,7 @@ $nivel   = $_SESSION['nivel_acesso'];
     <h1>Bem-vindo, <?= $usuario ?>!</h1>
     <p>Você está logado como <strong><?= $nivel ?></strong>.</p>
 
-    <div class="links">
+    <nav class="nav-links">
       <a href="dashboard.php">Dashboard</a>
       <?php if ($nivel === 'admin'): ?>
         <a href="painel_admin.php">Administração do Sistema</a>
@@ -50,7 +50,7 @@ $nivel   = $_SESSION['nivel_acesso'];
       <a href="frangocorte.php">Frango de Corte</a>
       <a href="frangoabatido.php">Abate de Frango</a>
       <a href="logout.php">Sair</a>
-    </div>
+      </nav>
   </div>
    <div id="logout-timer" class="logout-timer" >15:00</div>
 

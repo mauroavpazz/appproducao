@@ -326,3 +326,49 @@ button:hover {
 .modal .btn-cancel:hover {
   background: #e69400;
 }
+
+.nav-links {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;                            
+  margin-top: 1.5rem;
+  align-items: center;
+  justify-items: center;
+  width: 100%;
+}
+
+.nav-links a {
+  display: inline-block;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+  color: var(--text-color);
+  text-decoration: none;
+  text-align: center;
+  border-radius: 0.5rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  white-space: nowrap;
+}
+
+.nav-links a:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 768px) {
+  .nav-links {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 480px) {
+  .nav-links {
+    grid-template-columns: 1fr;
+  }
+}
+
+.login-container.dashboard{
+  width: 100%;
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
+}
