@@ -1,6 +1,12 @@
-<?php
-session_start();
+<?php 
+// session_start();
 require_once __DIR__ . '/conexao.php';
+require_once __DIR__ . '/session_inactivity.php';
+
+if (empty($_SESSION['user_id'])) {
+    header('Location: login.php');
+    exit;
+}
 
 if (empty($_SESSION['user_id']) || $_SESSION['nivel_acesso'] !== 'admin') {
     header('Location: login.php?erro=Acesso negado');
@@ -23,12 +29,33 @@ $pendentes = $stmt->fetchAll();
   <title>Painel Admin – Sistema ERP</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
+<script>
+  (function(){
+    const logoutAfter = 5 * 60 * 1000; 
+    let timer;
+
+    function resetTimer() {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        window.location.href = 'logout.php';
+      }, logoutAfter);
+    }
+
+    ['load','mousemove','mousedown','click','scroll','keypress']
+      .forEach(evt => window.addEventListener(evt, resetTimer));
+
+    resetTimer();
+  })();
+</script>
 <body>
   <div class="login-container admin">
     <h1>Administração do Sistema</h1>
     <div class="links">
       <a href="dashboard.php">← Voltar ao Dashboard</a>
     </div>
+
+    <div id="logout-timer" class="logout-timer" >05:00</div>
+
 
     <?php if (empty($pendentes)): ?>
       <p>Nenhum usuário pendente de aprovação.</p>
@@ -73,7 +100,6 @@ $pendentes = $stmt->fetchAll();
     <?php endif; ?>
   </div>
 
-  <!-- Modal de confirmação -->
   <div class="modal-overlay" id="confirmModal">
     <div class="modal">
       <h2>Confirmação</h2>
@@ -83,7 +109,6 @@ $pendentes = $stmt->fetchAll();
     </div>
   </div>
 
-  <!-- Script de confirmação -->
   <script>
     document.addEventListener('DOMContentLoaded', function(){
       const modal      = document.getElementById('confirmModal');
@@ -108,6 +133,44 @@ $pendentes = $stmt->fetchAll();
       });
     });
   </script>
+  <script>
+    (function(){
+      const warningEl = document.getElementById('logout-timer');
+      const maxTime     = 5 * 60;        
+      let remaining     = maxTime;       
+      let logoutTimer;                   
+      let countdownTimer;                
+
+      function startTimers() {
+        clearTimeout(logoutTimer);
+        clearInterval(countdownTimer);
+        remaining = maxTime;
+        renderTime();
+
+        logoutTimer = setTimeout(() => {
+          window.location.href = 'logout.php';
+        }, maxTime * 1000);
+
+        countdownTimer = setInterval(() => {
+          remaining--;
+          if (remaining <= 0) {
+            clearInterval(countdownTimer);
+          }
+          renderTime();
+        }, 1000);
+      }
+
+      function renderTime() {
+        const min = String(Math.floor(remaining/60)).padStart(2,'0');
+        const sec = String(remaining%60).padStart(2,'0');
+        warningEl.textContent = `${min}:${sec}`;
+      }
+
+      ['load','mousemove','mousedown','click','scroll','keypress']
+        .forEach(evt => window.addEventListener(evt, startTimers));
+
+      startTimers();
+    })();
+  </script>
 </body>
 </html>
-''

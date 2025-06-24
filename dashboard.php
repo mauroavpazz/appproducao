@@ -1,4 +1,4 @@
-    <?php
+<?php
 require_once __DIR__ . '/session_inactivity.php';
 require_once 'conexao.php';
 
