@@ -31,7 +31,7 @@ $pendentes = $stmt->fetchAll();
 </head>
 <script>
   (function(){
-    const logoutAfter = 5 * 60 * 1000; 
+    const logoutAfter = 15 * 60 * 1000; 
     let timer;
 
     function resetTimer() {
@@ -54,7 +54,7 @@ $pendentes = $stmt->fetchAll();
       <a href="dashboard.php">← Voltar ao Dashboard</a>
     </div>
 
-    <div id="logout-timer" class="logout-timer" >05:00</div>
+    <div id="logout-timer" class="logout-timer" >15:00</div>
 
 
     <?php if (empty($pendentes)): ?>
@@ -136,7 +136,7 @@ $pendentes = $stmt->fetchAll();
   <script>
     (function(){
       const warningEl = document.getElementById('logout-timer');
-      const maxTime     = 5 * 60;        
+      const maxTime     = 15 * 60;        
       let remaining     = maxTime;       
       let logoutTimer;                   
       let countdownTimer;                
