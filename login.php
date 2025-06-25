@@ -24,7 +24,7 @@ if (!empty($_SESSION['user_id'])) {
 <body>
   <main class="login-container" role="main" aria-labelledby="login-title">
     <header>
-      <h1 id="login-title">APPProdução</h1>
+      <h1 id="login-title"></h1>
     </header>
 
     <?php if (!empty($_GET['erro'])): ?>
