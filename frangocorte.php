@@ -7,7 +7,8 @@ if(empty($_SESSION['user_id'])){
     header('Location: login.php');
     exit;
 }
-
+$usuario = htmlspecialchars($_SESSION['usuario'], ENT_QUOTES, 'UTF-8');
+$nivel   = $_SESSION['nivel_acesso'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -19,7 +20,7 @@ if(empty($_SESSION['user_id'])){
 </head>
 <script>
   (function(){
-    const logoutAfter = 15 * 60 * 1000; 
+    const logoutAfter = 40 * 60 * 1000; 
     let timer;
 
     function resetTimer() {
@@ -36,20 +37,31 @@ if(empty($_SESSION['user_id'])){
   })();
 </script>
 <body>
+  <div class="header">
+    <h1>Bem-vindo, <?= $usuario ?>!</h1>
+    <p>Você está logado como <strong><?= $nivel ?></strong>.</p>
+    <div class="links">
+      <a href="dashboard.php">Dashboard</a>
+      <?php if ($nivel === 'admin'): ?>
+        <a href="painel_admin.php">Administração do Sistema</a>
+      <?php endif; ?>
+      <a href="logout.php">Sair</a>
+    </div>
+  </div>
     <div class="login-container admin">
     <h1>Frango de Corte</h1>
     <div class="links">
         <a href="relatorio_frangocorte.php">Registrar Relatório</a>
         <a href="historico_frangocorte.php">Histórico de Relatórios</a>
-        <a href="dashboard.php">← Voltar ao Dashboard</a>
+        <!-- <a href="dashboard.php">← Voltar ao Dashboard</a> -->
     </div>
 
-    <div id="logout-timer" class="logout-timer">15:00</div>
+    <div id="logout-timer" class="logout-timer">40:00</div>
 
     <script>
     (function(){
       const warningEl = document.getElementById('logout-timer');
-      const maxTime     = 15 * 60;        
+      const maxTime     = 40 * 60;        
       let remaining     = maxTime;       
       let logoutTimer;                   
       let countdownTimer;                

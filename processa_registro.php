@@ -1,5 +1,4 @@
 <?php
-require_once __DIR__ . '/session_inactivity.php';
 require_once __DIR__ . '/conexao.php';
 require_once __DIR__ . '/envia_email.php';
 

@@ -2,7 +2,7 @@
 
 session_start();
 
-$timeout = 5 * 60; 
+$timeout = 40 * 60; 
 
 if (
     isset($_SESSION['last_activity']) &&

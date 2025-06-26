@@ -20,7 +20,7 @@ $nivel   = $_SESSION['nivel_acesso'];
 </head>
 <script>
   (function(){
-    const logoutAfter = 15 * 60 * 1000; 
+    const logoutAfter = 40 * 60 * 1000; 
     let timer;
 
     function resetTimer() {
@@ -37,27 +37,37 @@ $nivel   = $_SESSION['nivel_acesso'];
   })();
 </script>
 <body>
-  <div class="login-container dashboard">
+  <div class="header">
     <h1>Bem-vindo, <?= $usuario ?>!</h1>
     <p>Você está logado como <strong><?= $nivel ?></strong>.</p>
-
-    <nav class="nav-links">
+    <div class="links">
       <a href="dashboard.php">Dashboard</a>
       <?php if ($nivel === 'admin'): ?>
         <a href="painel_admin.php">Administração do Sistema</a>
       <?php endif; ?>
+      <a href="logout.php">Sair</a>
+    </div>
+  </div>
+  <div class="login-container dashboard">
+    <!-- <h1>Bem-vindo, <?= $usuario ?>!</h1>
+    <p>Você está logado como <strong><?= $nivel ?></strong>.</p> -->
+    <nav class="nav-links">
+      <!-- <a href="dashboard.php">Dashboard</a> -->
+      <?php if ($nivel === 'admin'): ?>
+        <!-- <a href="painel_admin.php">Administração do Sistema</a> -->
+      <?php endif; ?>
       <a href="ovos.php">Produção de Ovos</a>
       <a href="frangocorte.php">Frango de Corte</a>
       <a href="frangoabatido.php">Abate de Frango</a>
-      <a href="logout.php">Sair</a>
+      <!-- <a href="logout.php">Sair</a> -->
       </nav>
   </div>
-   <div id="logout-timer" class="logout-timer" >15:00</div>
+   <div id="logout-timer" class="logout-timer" >40:00</div>
 
   <script>
     (function(){
       const warningEl = document.getElementById('logout-timer');
-      const maxTime     = 15 * 60;        
+      const maxTime     = 40 * 60;        
       let remaining     = maxTime;       
       let logoutTimer;                   
       let countdownTimer;                

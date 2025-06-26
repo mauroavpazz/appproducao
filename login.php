@@ -63,11 +63,11 @@ if (!empty($_SESSION['user_id'])) {
             id="togglePassword"
             aria-label="Mostrar ou ocultar senha"
           >
-            <ion-icon name="eye-outline"></ion-icon>
+            <ion-icon name="eye-off-outline"></ion-icon>
           </button>
         </div>
       </div>
-
+    
       <button type="submit">Entrar</button>
     </form>
 
@@ -87,7 +87,7 @@ if (!empty($_SESSION['user_id'])) {
       toggleBtn.addEventListener('click', () => {
         const hidden = pwdInput.type === 'password';
         pwdInput.type = hidden ? 'text' : 'password';
-        icon.setAttribute('name', hidden ? 'eye-off-outline' : 'eye-outline');
+        icon.setAttribute('name', hidden ? 'eye-outline' : 'eye-off-outline');
       });
     });
   </script>

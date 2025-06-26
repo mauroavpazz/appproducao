@@ -12,6 +12,7 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  font-weight: bold;
 }
 
 body {
@@ -28,6 +29,31 @@ body {
   place-items: center;
 }
 
+.header{
+  padding: 2rem;
+  border-radius: 1rem;
+  width: 100%;
+  max-width: 400px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  position: fixed;
+  top: 0;
+  text-align: center;
+}
+
+.header:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+}
+
+.header h1 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-size: 2rem;
+  color: var(--accent-color);
+  
+  text-shadow: 2px 2px 2px black;
+}
+
 .login-container {
   /* background-color: var(--container-bg); */
   padding: 2rem;
@@ -37,6 +63,7 @@ body {
   /* border: 2px solid var(--accent-color); */
   /* box-shadow: 0 4px 16px rgba(0,0,0,0.1); */
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+
 }
 
 .login-container:hover {
@@ -49,7 +76,7 @@ body {
   margin-bottom: 1.5rem;
   font-size: 2rem;
   color: var(--accent-color);
-  text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+  text-shadow: 2px 2px 2px black;
 }
 
 .form-group {
@@ -60,8 +87,9 @@ body {
   display: block;
   margin-bottom: 0.5rem;
   font-size: 0.9rem;
-  font-weight: 600;
-  color: var(--text-color);
+  font-weight: bold;
+  color: var(--accent-color);
+  /* text-shadow: 2px 2px 2px black; */
 }
 
 .form-group input {
@@ -144,6 +172,9 @@ button:hover {
   font-size: 0.9rem;
   text-align: center;
 }
+.success-message{
+  /* text-shadow: 2px 2px 2px black; */
+}
 
 @media (max-width: 480px) {
   .login-container {
@@ -180,7 +211,7 @@ button:hover {
   color: #333;
 }
 
-/* Dashboard Admin – Scroll e widths */
+
 .admin .table-wrapper {
   overflow-x: auto;
   margin-top: 1rem;
@@ -223,6 +254,8 @@ button:hover {
 .login-container.admin {
   max-width: 90%;
   overflow-x: auto;
+  max-height: 80%;
+  text-align: center;
 }
 
 .login-container.admin table {
@@ -376,4 +409,16 @@ button:hover {
   text-align: center;
   max-width: 800px;
   margin: 0 auto;
+}
+
+.relatorio{
+  
+}
+
+.colunas-matriz{
+
+}
+
+.celulas{
+
 }
