@@ -17,9 +17,10 @@
 
 body {
   background-image: url("/images/background.png");
-  background-size: cover;
+  background-size: auto;
   background-position: center;
-  background-repeat:no-repeat;
+  background-repeat:repeat;
+  background-attachment: fixed;
   width: 100%;
   /* background-color: var(--bg-color);*/
   color: var(--text-color); 
@@ -38,6 +39,7 @@ body {
   position: fixed;
   top: 0;
   text-align: center;
+  margin-top: 0;
 }
 
 .header:hover {
@@ -109,6 +111,55 @@ body {
 }
 
 .form-group input::placeholder {
+  color: #cfd8dc;
+  font-style: italic;
+}
+
+.titulo_rrelatorio{
+  margin-bottom: 2.5rem;
+  margin-top: 2.5rem;
+}
+
+.form-group textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--accent-color);
+  border-radius: 0.5rem;
+  background-color: var(--bg-color); 
+  color: var(--text-color);
+  font-size: 1rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-group textarea:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(99,164,255,0.2);
+  outline: none;
+}
+
+.form-group textarea::placeholder {
+  color: #cfd8dc;
+  font-style: italic;
+}
+
+.form-group select {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--accent-color);
+  border-radius: 0.5rem;
+  background-color: var(--bg-color); 
+  color: var(--text-color);
+  font-size: 1rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-group select:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(99,164,255,0.2);
+  outline: none;
+}
+
+.form-group select::placeholder {
   color: #cfd8dc;
   font-style: italic;
 }

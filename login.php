@@ -13,7 +13,7 @@ if (!empty($_SESSION['user_id'])) {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Login – ERP</title>
+  <title>Login – App Produção</title>
   <meta name="description" content="Tela de login do ERP com design claro em azul e amarelo.">
   <link rel="stylesheet" href="css/style.css">
 
@@ -24,7 +24,6 @@ if (!empty($_SESSION['user_id'])) {
 <body>
   <main class="login-container" role="main" aria-labelledby="login-title">
     <header>
-      <h1 id="login-title"></h1>
     </header>
 
     <?php if (!empty($_GET['erro'])): ?>
