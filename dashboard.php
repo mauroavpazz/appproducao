@@ -47,22 +47,15 @@ $nivel   = $_SESSION['nivel_acesso'];
       <?php endif; ?>
       <a href="logout.php">Sair</a>
     </div>
-  </div>
+    </div>
   <div class="login-container dashboard">
-    <!-- <h1>Bem-vindo, <?= $usuario ?>!</h1>
-    <p>Você está logado como <strong><?= $nivel ?></strong>.</p> -->
     <nav class="nav-links">
-      <!-- <a href="dashboard.php">Dashboard</a> -->
-      <?php if ($nivel === 'admin'): ?>
-        <!-- <a href="painel_admin.php">Administração do Sistema</a> -->
-      <?php endif; ?>
       <a href="ovos.php">Produção de Ovos</a>
       <a href="frangocorte.php">Frango de Corte</a>
       <a href="frangoabatido.php">Abate de Frango</a>
-      <!-- <a href="logout.php">Sair</a> -->
       </nav>
   </div>
-   <div id="logout-timer" class="logout-timer" >40:00</div>
+  <div id="logout-timer" class="logout-timer" >40:00</div>
 
   <script>
     (function(){

@@ -50,7 +50,6 @@ body {
   margin-bottom: 1.5rem;
   font-size: 2rem;
   color: var(--accent-color);
-  
   text-shadow: 2px 2px 2px black;
 }
 
@@ -172,9 +171,6 @@ button:hover {
   font-size: 0.9rem;
   text-align: center;
 }
-.success-message{
-  /* text-shadow: 2px 2px 2px black; */
-}
 
 @media (max-width: 480px) {
   .login-container {
@@ -210,7 +206,6 @@ button:hover {
   font-size: 1.2rem;
   color: #333;
 }
-
 
 .admin .table-wrapper {
   overflow-x: auto;
@@ -411,14 +406,3 @@ button:hover {
   margin: 0 auto;
 }
 
-.relatorio{
-  
-}
-
-.colunas-matriz{
-
-}
-
-.celulas{
-
-}

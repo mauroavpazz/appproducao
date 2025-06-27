@@ -152,6 +152,19 @@ $nivel   = $_SESSION['nivel_acesso'];
     (function(){
       const warningEl = document.getElementById('logout-timer');
       const maxTime     = 40 * 60;        
+
+
+
+
+
+
+
+
+
+
+
+
+
       let remaining     = maxTime;       
       let logoutTimer;                   
       let countdownTimer;                
