@@ -164,6 +164,10 @@ body {
   font-style: italic;
 }
 
+.formulario_relatorio button{
+  margin-bottom: 1rem;
+}
+
 button {
   width: 100%;
   padding: 0.75rem;

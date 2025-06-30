@@ -33,7 +33,7 @@ $setores = $stmt->fetchAll(PDO::FETCH_ASSOC);
       <div class="success-message"><?=htmlspecialchars($_GET['sucesso'])?></div>
     <?php endif; ?>
 
-    <form action="processa_relatorio.php" method="POST">
+    <form class="formulario_relatorio" action="processa_relatorio.php" method="POST">
       <div class="form-group">
         <label for="data_referencia">Data de Referência:</label>
         <input type="date" id="data_referencia" name="data_referencia" required>
@@ -93,7 +93,7 @@ $setores = $stmt->fetchAll(PDO::FETCH_ASSOC);
       </div>
 
       <button type="submit">Registrar Relatório</button>
-    </form>
+    </form> 
   </div>
 
   <script>
