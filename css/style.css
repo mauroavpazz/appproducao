@@ -461,3 +461,41 @@ button:hover {
   margin: 0 auto;
 }
 
+.table-wrapper {
+  overflow-x: auto;
+  margin-top: 1rem;
+}
+
+.table-wrapper table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 600px;
+}
+
+.table-wrapper th,
+.table-wrapper td {
+  padding: 0.75rem;
+  border: 1px solid #333;
+  text-align: left;
+  word-wrap: break-word;
+}
+
+.table-wrapper th {
+  background-color: var(--container-bg);
+  color: var(--accent-color);
+  font-weight: 600;
+}
+
+.table-wrapper td {
+  background-color: var(--bg-color);
+}
+
+.table-wrapper td button {
+  margin-right: 0.5rem;
+  width: auto;
+  padding: 0.5rem 1rem;
+}
+
+.table-wrapper form {
+  display: inline-block;
+}

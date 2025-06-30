@@ -1,6 +1,9 @@
 <?php
 session_start();
 
+// require __DIR__ . '/api/galpoes.php';
+// require __DIR__ . '/api/racas.php';
+
 $pdoApp = new PDO(
     'mysql:host=localhost;dbname=appproducao;charset=utf8mb4',
     'mauro.vasconcelos','Mavp220*'
@@ -15,7 +18,15 @@ $nivel   = $_SESSION['nivel_acesso'];
 
 $stmt = $pdoApp->query('SELECT id,nome FROM setores ORDER BY nome');
 $setores = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+$stmt = $pdoApp->query('SELECT id,nome FROM galpoes ORDER BY nome');
+$galpoes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+$stmt = $pdoApp->query('SELECT id,nome FROM racas ORDER BY nome');
+$racas = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
 ?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -53,6 +64,9 @@ $setores = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <label for="galpao">Galpão:</label>
         <select id="galpao" name="galpao_id" required>
           <option value="">Selecione o setor primeiro</option>
+          <?php foreach($galpoes as $g): ?>
+            <option value="<?=$g['id']?>"><?=htmlspecialchars($g['nome'])?></option>:
+          <?php endforeach; ?>
         </select>
       </div>
 
@@ -60,6 +74,9 @@ $setores = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <label for="raca">Raça:</label>
         <select id="raca" name="raca_id" required>
           <option value="">Selecione o galpão primeiro</option>
+          <?php foreach($racas as $r): ?>
+            <option value="<?=$r['id']?>"><?=htmlspecialchars($r['nome'])?></option>:
+          <?php endforeach; ?>
         </select>
       </div>
       
@@ -74,14 +91,6 @@ $setores = $stmt->fetchAll(PDO::FETCH_ASSOC);
       <div class="form-group">
         <label for="qtde_mortes">Quantidade de Mortes:</label>
         <input type="number" id="qtde_mortes" name="qtde_mortes" min="0" required>
-      </div>
-      <div class="form-group">
-        <label for="vitalidade">Vitalidade (%)</label>
-        <input type="number" step="0.01" id="vitalidade" name="vitalidade" min="0" max="100" required>
-      </div>
-      <div class="form-group">
-        <label for="produtividade">Produtividade (Ovos/Galinha)</label>
-        <input type="number" step="0.01" id="produtividade" name="produtividade" min="0" required>
       </div>
       <div class="form-group">
         <label for="qtde_ovos">Quantidade de Ovos:</label>

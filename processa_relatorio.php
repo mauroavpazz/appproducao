@@ -1,9 +1,9 @@
 <?php
 session_start();
-require __DIR__.'/conexao_app.php';  // define $pdoApp
-require __DIR__.'/conexao_erp.php';  // define $pdoErp
+require_once 'conexao.php';  // define $pdoApp
+// require __DIR__.'/conexao_erp.php';  // define $pdoErp
 require 'config_appproducao.php';
-require 'config_erp.php';
+// require 'config_erp.php';
 
 // usa $pdoApp para inserir em historico_ovos
 // e $pdoErp para inserir em relatorio_ovos
@@ -35,7 +35,7 @@ $obs         = $_POST['observacoes'] ?? '';
 try {
     // Inicia transações
     $pdoApp->beginTransaction();
-    $pdoErp->beginTransaction();
+    // $pdoErp->beginTransaction();
 
     // 4.1 Insere em appproducao.historico_ovos
     $sql1 = "INSERT INTO historico_ovos
@@ -53,24 +53,24 @@ try {
 
     // 4.2 Insere em erp.relatorio_ovos
     $sql2 = str_replace('historico_ovos','relatorio_ovos',$sql1);
-    $stmt2 = $pdoErp->prepare($sql2);
-    $stmt2->execute([
-      $data, $setor_id, $galpao_id, $raca_id,
-      $semana, $qtde_galinhas, $qtde_mortes,
-      $vitalidade, $produtividade, $qtde_ovos,
-      $quem, $obs
-    ]);
+    // $stmt2 = $pdoErp->prepare($sql2);
+    // $stmt2->execute([
+    //   $data, $setor_id, $galpao_id, $raca_id,
+    //   $semana, $qtde_galinhas, $qtde_mortes,
+    //   $vitalidade, $produtividade, $qtde_ovos,
+    //   $quem, $obs
+    // ]);
 
     // Commit se tudo ok
     $pdoApp->commit();
-    $pdoErp->commit();
+    // $pdoErp->commit();
 
     header('Location: relatorio_ovos.php?sucesso=Relatório registrado com sucesso');
     exit;
 } catch(Exception $e) {
     // Rollback ambos
     $pdoApp->rollBack();
-    $pdoErp->rollBack();
+    // $pdoErp->rollBack();
     header('Location: relatorio_ovos.php?erro=' . rawurlencode($e->getMessage()));
     exit;
 }

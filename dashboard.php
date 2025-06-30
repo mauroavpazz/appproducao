@@ -47,7 +47,7 @@ $nivel   = $_SESSION['nivel_acesso'];
       <?php endif; ?>
       <a href="logout.php">Sair</a>
     </div>
-    </div>
+  </div>
   <div class="login-container dashboard">
     <nav class="nav-links">
       <a href="ovos.php">Produção de Ovos</a>
