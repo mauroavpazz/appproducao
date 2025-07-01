@@ -10,16 +10,14 @@ $pdoApp = new PDO(
 $sql = "SELECT * FROM historico_ovos"; 
 $stmt = $pdoApp->query($sql);
 
-// Cabeçalhos para download
-header('Content-Type: text/pdf; charset=UTF-8');
-header('Content-Disposition: attachment; filename="historico_ovos_'.date('Ymd_His').'.pdf"');
+header('Content-Type: text/csv; charset=UTF-8');
+header('Content-Disposition: attachment; filename="historico_ovos_'.date('Ymd_His').'.csv"');
 
 $out = fopen('php://output','w');
-// Cabeçalho pdf
+
 fputcsv($out, ['ID','Data Ref.','Registro','Setor','Galpão','Raça','Semana',
                'Galinhas','Mortes','Vitalidade','Produtividade','Ovos','Quem','Obs']);
 
-// Dados
 while($row = $stmt->fetch(PDO::FETCH_NUM)) {
     fputcsv($out, $row);
 }

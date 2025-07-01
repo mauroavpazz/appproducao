@@ -45,7 +45,7 @@ $relatorios = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
   <div class="app-container">
     <h1>Histórico de Relatórios de Ovos</h1>
-    <a href="csv_export.php" class="button">Download PDF</a>
+    <a href="csv_export.php" class="button">Download CSV</a>
     <div class="table-wrapper">
       <table>
         <thead>
