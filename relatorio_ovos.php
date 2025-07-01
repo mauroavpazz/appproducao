@@ -106,7 +106,6 @@ $racas = $stmt->fetchAll(PDO::FETCH_ASSOC);
   </div>
 
   <script>
-    // Galpões diferentes a cada setor
     document.getElementById('setor').addEventListener('change', function(){
       const id = this.value;
       fetch('api/galpoes.php?setor_id='+id)
