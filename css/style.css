@@ -521,3 +521,27 @@ button:hover {
 { background: #115293; 
   color: #fff; 
 }
+
+.botao_pdf{
+  text-decoration: none;
+  color: var(--text-color);
+}
+
+.botao_pdf a{
+  transition: color 0.2s ease;
+}
+
+.botao_pdf a::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -2px;
+  left: 0;
+  background-color: var(--accent-color);
+  transition: width 0.3s ease;
+}
+
+.botao_pdf a:hover::after{
+  width: 100%;
+}

@@ -20,6 +20,7 @@ $sql = "
 ";
 $stmt = $pdoApp->query($sql);
 $relatorios = $stmt->fetchAll(PDO::FETCH_ASSOC);
+// $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -28,7 +29,24 @@ $relatorios = $stmt->fetchAll(PDO::FETCH_ASSOC);
   <title>Histórico de Relatórios</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
-  
+<script>
+  (function(){
+    const logoutAfter = 40 * 60 * 1000; 
+    let timer;
+
+    function resetTimer() {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        window.location.href = 'logout.php';
+      }, logoutAfter);
+    }
+
+    ['load','mousemove','mousedown','click','scroll','keypress']
+      .forEach(evt => window.addEventListener(evt, resetTimer));
+
+    resetTimer();
+  })();
+</script>
 <body class="production-app">
 
   <div class="header">
@@ -45,16 +63,26 @@ $relatorios = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
   <div class="app-container">
     <h1>Histórico de Relatórios de Ovos</h1>
-    <a href="csv_export.php" class="button">Download CSV</a>
+    <!-- <a href="csv_export.php" class="button">Download CSV</a> -->
     <div class="table-wrapper">
       <table>
         <thead>
           <tr>
-            <th>ID</th><th>Data Ref.</th><th>Registro</th>
-            <th>Setor</th><th>Galpão</th><th>Raça</th>
-            <th>Semana</th><th>Galinhas</th><th>Mortes</th>
-            <th>Vitalidade</th><th>Produtividade</th><th>Ovos</th>
-            <th>Quem</th><th>Obs.</th>
+            <th>ID</th>
+            <th>Data Ref.</th>
+            <th>Registro</th>
+            <th>Setor</th>
+            <th>Galpão</th>
+            <th>Raça</th>
+            <th>Semana</th>
+            <th>Galinhas</th>
+            <th>Mortes</th>
+            <th>Vitalidade</th>
+            <th>Produtividade</th>
+            <th>Ovos</th>
+            <th>Quem</th>
+            <th>Obs.</th>
+            <th>PDF</th>
           </tr>
         </thead>
         <tbody>
@@ -69,11 +97,12 @@ $relatorios = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <td><?=$r['semana']?></td>
             <td><?=$r['qtde_galinhas']?></td>
             <td><?=$r['qtde_mortes']?></td>
-            <td><?=($r['qtde_galinhas'] / ($r['qtde_galinhas'] + $r['qtde_mortes']))*100?>%</td>
-            <td><?=($r['qtde_ovos'] / $r['qtde_galinhas'])*100?>%</td>
+            <td><?=number_format(($r['qtde_galinhas'] / ($r['qtde_galinhas'] + $r['qtde_mortes']))*100,2,',','.')?>%</td>
+            <td><?=number_format(($r['qtde_ovos'] / $r['qtde_galinhas'])*100,2,',','.')?>%</td>
             <td><?=$r['qtde_ovos']?></td>
             <td><?=htmlspecialchars($r['quem_registrou'])?></td>
             <td><?=htmlspecialchars($r['observacoes'])?></td>
+            <td><a href="pdf_relatorio.php?id=<?= $r['id'] ?>" class="botao_pdf">Gerar PDF</a></td>
           </tr>
           <?php endforeach; ?>
         </tbody>
@@ -83,5 +112,46 @@ $relatorios = $stmt->fetchAll(PDO::FETCH_ASSOC);
       <a href="relatorio_ovos.php">← Voltar ao Registro</a>
     </nav>
   </div>
+  <div id="logout-timer" class="logout-timer" >40:00</div>
+
+  <script>
+    (function(){
+      const warningEl = document.getElementById('logout-timer');
+      const maxTime = 40 * 60;        
+      let remaining = maxTime;       
+      let logoutTimer;                   
+      let countdownTimer;                
+
+      function startTimers() {
+        clearTimeout(logoutTimer);
+        clearInterval(countdownTimer);
+        remaining = maxTime;
+        renderTime();
+
+        logoutTimer = setTimeout(() => {
+          window.location.href = 'logout.php';
+        }, maxTime * 1000);
+
+        countdownTimer = setInterval(() => {
+          remaining--;
+          if (remaining <= 0) {
+            clearInterval(countdownTimer);
+          }
+          renderTime();
+        }, 1000);
+      }
+
+      function renderTime() {
+        const min = String(Math.floor(remaining/60)).padStart(2,'0');
+        const sec = String(remaining%60).padStart(2,'0');
+        warningEl.textContent = `${min}:${sec}`;
+      }
+
+      ['load','mousemove','mousedown','click','scroll','keypress']
+        .forEach(evt => window.addEventListener(evt, startTimers));
+
+      startTimers();
+    })();
+  </script>
 </body>
 </html
