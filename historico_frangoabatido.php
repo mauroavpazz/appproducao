@@ -18,6 +18,7 @@ $nivel   = $_SESSION['nivel_acesso'];
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Histórico do Relatório de Frango Abatido</title>
     <link rel="stylesheet" href="css/style.css">
+    <a href="frangoabatido.php" class="botao_voltar" ><img src="images/back-icon.svg" alt="voltar"></a>
 </head>
 <script>
   (function(){

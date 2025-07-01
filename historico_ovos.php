@@ -28,6 +28,7 @@ $relatorios = $stmt->fetchAll(PDO::FETCH_ASSOC);
   <meta charset="UTF-8">
   <title>Histórico de Relatórios</title>
   <link rel="stylesheet" href="css/style.css">
+  <a href="ovos.php" class="botao_voltar" ><img src="images/back-icon.svg" alt="voltar"></a>
 </head>
 <script>
   (function(){

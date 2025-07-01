@@ -34,6 +34,7 @@ $racas = $stmt->fetchAll(PDO::FETCH_ASSOC);
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Registrar Relatório de Ovos</title>
   <link rel="stylesheet" href="css/style.css">
+  <a href="ovos.php" class="botao_voltar" ><img src="images/back-icon.svg" alt="voltar"></a>
 </head>
 <script>
   (function(){
