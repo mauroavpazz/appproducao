@@ -5,13 +5,11 @@ require __DIR__ . '/config_appproducao.php';
 use Dompdf\Dompdf;
 use Dompdf\Options;
 
-// 1) Recebe e valida o ID
 $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
 if (!$id) {
     die('ID de relatório inválido');
 }
 
-// 2) Monta a query COM UM único placeholder :id
 $sql = "
   SELECT 
     h.id, 
@@ -36,19 +34,15 @@ $sql = "
   LIMIT 1
 ";
 
-// 3) Prepara e vincula EXPLICITAMENTE
 $stmt = $pdoApp->prepare($sql);
-// bindValue garante que o nome do parâmetro (:id) exista e seja INT
 $stmt->bindValue(':id', $id, PDO::PARAM_INT);
 
-// 4) Executa e busca
 $stmt->execute();
 $data = $stmt->fetch(PDO::FETCH_ASSOC);
 if (!$data) {
     die('Relatório não encontrado');
 }
 
-// 5) Carrega CSS e template, gera PDF (conforme já tinhamos)
 $css = file_get_contents(__DIR__ . '/templates/pdf_style.css');
 
 ob_start();
