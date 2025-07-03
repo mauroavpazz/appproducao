@@ -63,7 +63,7 @@ $racas = $stmt->fetchAll(PDO::FETCH_ASSOC);
       <div class="success-message"><?=htmlspecialchars($_GET['sucesso'])?></div>
     <?php endif; ?>
 
-    <form class="formulario_relatorio" action="processa_relatorio.php" method="POST">
+    <form class="formulario_relatorio" action="processa_relatorio.php" method="POST" onsubmit="event.preventDefault(); openConfirm(this, 'Você tem certeza que deseja registrar este relatório?');">
       <div class="form-group">
         <label for="data_referencia">Data de Referência:</label>
         <input type="date" id="data_referencia" name="data_referencia" required>
@@ -124,13 +124,46 @@ $racas = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <textarea id="observacoes" name="observacoes" rows="3"></textarea>
       </div>
       
+      <input type="hidden" name="id" value="<?= $u['id'] ?>">
+      <input type="hidden" name="acao" value="aprovar">
+      
       <button type="submit">Registrar Relatório</button>
 
     </form>
     </div>
-  </div>
-  </div>
 
+    <div class="modal-overlay" id="confirmModal">
+      <div class="modal">
+        <h2>Confirmação</h2>
+        <p id="modalMessage">Você tem certeza?</p>
+        <button class="btn-confirm" id="modalYes">Sim</button>
+        <button class="btn-cancel" id="modalNo">Não</button>
+      </div>
+    </div>
+    <script>
+    document.addEventListener('DOMContentLoaded', function(){
+      const modal      = document.getElementById('confirmModal');
+      const msgEl      = document.getElementById('modalMessage');
+      const yesBtn     = document.getElementById('modalYes');
+      const noBtn      = document.getElementById('modalNo');
+      let currentForm  = null;
+
+      window.openConfirm = function(form, message) {
+        currentForm = form;
+        msgEl.textContent = message;
+        modal.style.display = 'flex';
+      };
+
+      yesBtn.addEventListener('click', function(){
+        modal.style.display = 'none';
+        if (currentForm) currentForm.submit();
+      });
+
+      noBtn.addEventListener('click', function(){
+        modal.style.display = 'none';
+      });
+    });
+  </script>
   <script>
     document.getElementById('setor').addEventListener('change', function(){
       const id = this.value;
