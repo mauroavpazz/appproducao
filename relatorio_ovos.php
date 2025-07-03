@@ -188,6 +188,7 @@ $racas = $stmt->fetchAll(PDO::FETCH_ASSOC);
         });
     });
   </script>
+  
   <div id="logout-timer" class="logout-timer" >40:00</div>
 
   <script>
