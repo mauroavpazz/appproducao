@@ -26,9 +26,9 @@ $raca_id     = $_POST['raca_id'];
 $semana      = (int) $_POST['semana'];
 $qtde_galinhas = (int) $_POST['qtde_galinhas'];
 $qtde_mortes = (int) $_POST['qtde_mortes'];
-$vitalidade  = (float) $_POST['vitalidade'];
+$vitalidade  = (float) $_POST['vitalidade']; //arrumar *
 $qtde_ovos   = (int) $_POST['qtde_ovos'];
-$produtividade= (float) $_POST['produtividade'];
+$produtividade= (float) $_POST['produtividade']; //arrumar *
 $quem        = $_SESSION['usuario'];
 $obs         = $_POST['observacoes'] ?? '';
 

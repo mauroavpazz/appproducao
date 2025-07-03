@@ -7,12 +7,14 @@
   <meta charset="UTF-8">
   <link rel="stylesheet" href="/css/style.css">
 </head>
-<body class="relatorio_pdf">
+<body>
   <h1>Relatório de Ovos</h1>
   <p><strong>ID:</strong> <?= $data['id'] ?> &nbsp; 
      <strong>Data:</strong> <?= $data['data_referencia'] ?> &nbsp; 
-     <strong>Registrado em:</strong> <?= $data['ts_registro'] ?></p>
-  <div class="table-wrapper">
+     <strong>Registrado em:</strong> <?= $data['ts_registro'] ?>
+  </p>
+  
+  <div>
     <table>
       <thead>
         <tr>

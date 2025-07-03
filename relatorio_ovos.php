@@ -103,25 +103,32 @@ $racas = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <label for="semana">Semana:</label>
         <input type="number" id="semana" name="semana" min="1" required>
       </div>
+
       <div class="form-group">
         <label for="qtde_galinhas">Quantidade de Galinhas:</label>
         <input type="number" id="qtde_galinhas" name="qtde_galinhas" min="0" required>
       </div>
+
       <div class="form-group">
         <label for="qtde_mortes">Quantidade de Mortes:</label>
         <input type="number" id="qtde_mortes" name="qtde_mortes" min="0" required>
       </div>
+
       <div class="form-group">
         <label for="qtde_ovos">Quantidade de Ovos:</label>
         <input type="number" id="qtde_ovos" name="qtde_ovos" min="0" required>
       </div>
+
       <div class="form-group">
         <label for="observacoes">Observações:</label>
         <textarea id="observacoes" name="observacoes" rows="3"></textarea>
       </div>
-
+      
       <button type="submit">Registrar Relatório</button>
-    </form> 
+
+    </form>
+    </div>
+  </div>
   </div>
 
   <script>
@@ -153,8 +160,8 @@ $racas = $stmt->fetchAll(PDO::FETCH_ASSOC);
   <script>
     (function(){
       const warningEl = document.getElementById('logout-timer');
-      const maxTime     = 40 * 60;        
-      let remaining     = maxTime;       
+      const maxTime = 40 * 60;        
+      let remaining = maxTime;       
       let logoutTimer;                   
       let countdownTimer;                
 

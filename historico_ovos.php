@@ -109,9 +109,6 @@ $relatorios = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </tbody>
       </table>
       </div>
-    <nav class="nav-links">
-      <a href="relatorio_ovos.php">← Voltar ao Registro</a>
-    </nav>
   </div>
   <div id="logout-timer" class="logout-timer" >40:00</div>
 
