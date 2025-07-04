@@ -1,8 +1,8 @@
 <?php
 session_start();
 
-// require __DIR__ . '/api/galpoes.php';
-// require __DIR__ . '/api/racas.php';
+//require __DIR__ . '/api/galpoes.php';
+//require __DIR__ . '/api/racas.php';
 
 $pdoApp = new PDO(
     'mysql:host=localhost;dbname=appproducao;charset=utf8mb4',
@@ -74,7 +74,7 @@ $racas = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <select id="setor" name="setor_id" required>
           <option value="">Selecione um setor</option>
           <?php foreach($setores as $s): ?>
-            <option value="<?=$s['id']?>"><?=htmlspecialchars($s['nome'])?></option>:
+            <option value="<?=$s['id']?>"><?=htmlspecialchars($s['nome'])?></option>
           <?php endforeach; ?>
         </select>
       </div>
@@ -83,9 +83,6 @@ $racas = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <label for="galpao">Galpão:</label>
         <select id="galpao" name="galpao_id" required>
           <option value="">Selecione o setor primeiro</option>
-          <?php foreach($galpoes as $g): ?>
-            <option value="<?=$g['id']?>"><?=htmlspecialchars($g['nome'])?></option>:
-          <?php endforeach; ?>
         </select>
       </div>
 
@@ -93,9 +90,6 @@ $racas = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <label for="raca">Raça:</label>
         <select id="raca" name="raca_id" required>
           <option value="">Selecione o galpão primeiro</option>
-          <?php foreach($racas as $r): ?>
-            <option value="<?=$r['id']?>"><?=htmlspecialchars($r['nome'])?></option>:
-          <?php endforeach; ?>
         </select>
       </div>
       
@@ -124,7 +118,7 @@ $racas = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <textarea id="observacoes" name="observacoes" rows="3"></textarea>
       </div>
       
-      <input type="hidden" name="id" value="<?= $u['id'] ?>">
+      <input type="hidden" name="id" value="<?= isset($u['id']) ? $u['id'] : '' ?>">
       <input type="hidden" name="acao" value="aprovar">
       
       <button type="submit">Registrar Relatório</button>
@@ -132,7 +126,7 @@ $racas = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </form>
     </div>
 
-    <div class="modal-overlay" id="confirmModal">
+    <div class="modal-overlay" id="confirmModal" style="display:none;">
       <div class="modal">
         <h2>Confirmação</h2>
         <p id="modalMessage">Você tem certeza?</p>
@@ -162,30 +156,63 @@ $racas = $stmt->fetchAll(PDO::FETCH_ASSOC);
       noBtn.addEventListener('click', function(){
         modal.style.display = 'none';
       });
-    });
-  </script>
-  <script>
-    document.getElementById('setor').addEventListener('change', function(){
-      const id = this.value;
-      fetch('api/galpoes.php?setor_id='+id)
-        .then(res=>res.json())
-        .then(data=>{
-          const sel = document.getElementById('galpao');
-          sel.innerHTML = '<option value="">Selecione o galpão</option>';
-          data.forEach(g=> sel.innerHTML += `<option value="${g.id}">${g.nome}</option>`);
-          document.getElementById('raca').innerHTML = '<option value="">Selecione o galpão primeiro</option>';
-        });
-    });
-    // Raças dependendo do galpão escolhido daquele setor
-    document.getElementById('galpao').addEventListener('change', function(){
-      const id = this.value;
-      fetch('api/racas.php?galpao_id='+id)
-        .then(res=>res.json())
-        .then(data=>{
-          const sel = document.getElementById('raca');
-          sel.innerHTML = '<option value="">Selecione a raça</option>';
-          data.forEach(r=> sel.innerHTML += `<option value="${r.id}">${r.nome}</option>`);
-        });
+
+      document.getElementById('setor').addEventListener('change', function(){
+        const id = this.value;
+        const galpaoSel = document.getElementById('galpao');
+        const racaSel = document.getElementById('raca');
+        galpaoSel.innerHTML = '<option value="">Carregando...</option>';
+        racaSel.innerHTML = '<option value="">Selecione o galpão primeiro</option>';
+        if(id) {
+          fetch('api/galpoes.php?setor_id='+encodeURIComponent(id))
+            .then(res=>{
+              if(!res.ok) throw new Error('Erro ao buscar galpões');
+              return res.json();
+            })
+            .then(data=>{
+              if(data.length === 0) {
+                galpaoSel.innerHTML = '<option value="">Nenhum galpão encontrado</option>';
+                racaSel.innerHTML = '<option value="">Nenhuma raça disponível</option>';
+              } else {
+                galpaoSel.innerHTML = '<option value="">Selecione o galpão</option>';
+                data.forEach(g=> galpaoSel.innerHTML += `<option value="${g.id}">${g.nome}</option>`);
+              }
+            })
+            .catch(()=>{
+              galpaoSel.innerHTML = '<option value="">Nenhum galpão encontrado</option>';
+              racaSel.innerHTML = '<option value="">Nenhuma raça disponível</option>';
+            });
+        } else {
+          galpaoSel.innerHTML = '<option value="">Selecione o setor primeiro</option>';
+          racaSel.innerHTML = '<option value="">Selecione o galpão primeiro</option>';
+        }
+      });
+
+      document.getElementById('galpao').addEventListener('change', function(){
+        const id = this.value;
+        const racaSel = document.getElementById('raca');
+        racaSel.innerHTML = '<option value="">Carregando...</option>';
+        if(id) {
+          fetch('api/racas.php?galpao_id='+encodeURIComponent(id))
+            .then(res=>{
+              if(!res.ok) throw new Error('Erro ao buscar raças');
+              return res.json();
+            })
+            .then(data=>{
+              if(data.length === 0) {
+                racaSel.innerHTML = '<option value="">Nenhuma raça encontrada</option>';
+              } else {
+                racaSel.innerHTML = '<option value="">Selecione a raça</option>';
+                data.forEach(r=> racaSel.innerHTML += `<option value="${r.id}">${r.nome}</option>`);
+              }
+            })
+            .catch(()=>{
+              racaSel.innerHTML = '<option value="">Nenhuma raça encontrada</option>';
+            });
+        } else {
+          racaSel.innerHTML = '<option value="">Selecione o galpão primeiro</option>';
+        }
+      });
     });
   </script>
   
