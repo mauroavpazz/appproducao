@@ -16,22 +16,10 @@ $mensagem_erro = '';
 $where_clauses = [];
 $params = [];
 
-// Filtro de busca
+// filtro de busca
 if (!empty($busca)) {
     $where_clauses[] = "(h.observacoes LIKE :busca OR h.quem_registrou LIKE :busca)";
     $params[':busca'] = "%$busca%";
-}
-
-// Exemplo de filtro de status (ajuste conforme os campos reais)
-if ($status_filtro !== 'Todos') {
-    $where_clauses[] = "h.status = :status";
-    $params[':status'] = $status_filtro;
-}
-
-// Exemplo de filtro de prioridade (ajuste conforme os campos reais)
-if ($prioridade_filtro !== 'Todas') {
-    $where_clauses[] = "h.prioridade = :prioridade";
-    $params[':prioridade'] = $prioridade_filtro;
 }
 
 $ordenar_por_validos = ['id', 'data_referencia', 'ts_registro', 'setor', 'galpao', 'raca', 'semana', 'qtde_galinhas', 'qtde_mortes', 'vitalidade', 'produtividade', 'qtde_ovos', 'quem_registrou'];
@@ -62,8 +50,9 @@ if (in_array($ordenar_por, $ordenar_por_validos) && in_array($ordem, $ordem_vali
 $stmt = $pdoApp->prepare($sql);
 $stmt->execute($params);
 $relatorios = $stmt->fetchAll(PDO::FETCH_ASSOC);
-// $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
 ?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>

@@ -582,11 +582,6 @@ button:hover {
           brightness(1.1);             
 }
 
-/* filtro na tabela do histórico */
-.filter-form {
-  /* background: var(--container-bg); */
-}
-
 .filter-group label {
   color: var(--accent-color);
 }
@@ -602,7 +597,6 @@ button:hover {
     display: flex;
     flex-wrap: wrap; 
     gap: 15px;
-    /* background: #2a2a3e; */
     padding: 20px;
     border-radius: 8px;
     margin-bottom: 25px;
@@ -616,7 +610,6 @@ button:hover {
 
 .filter-group label {
     font-size: 0.9em;
-    /* color: #bbb; */
     margin-bottom: 5px;
 }
 
@@ -624,13 +617,7 @@ button:hover {
 .filter-form input[type="text"] {
     width: 100%;
     padding: 8px;
-    /* border: 1px solid #35363a; */
     border-radius: 5px;
-    /* background: #23232b; */
-    /* color: #f3f3f3; */
     font-size: 0.9em;
 }
 
-.limpar_filtro{
-
-}
