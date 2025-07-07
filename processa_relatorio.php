@@ -40,14 +40,12 @@ try {
     // 4.1 Insere em appproducao.historico_ovos
     $sql1 = "INSERT INTO historico_ovos
       (data_referencia, setor_id, galpao_id, raca_id,
-       semana, qtde_galinhas, qtde_mortes, vitalidade,
-       produtividade, qtde_ovos, quem_registrou, observacoes)
-     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+       semana, qtde_galinhas, qtde_mortes, qtde_ovos, quem_registrou, observacoes)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt1 = $pdoApp->prepare($sql1);
     $stmt1->execute([
       $data, $setor_id, $galpao_id, $raca_id,
-      $semana, $qtde_galinhas, $qtde_mortes,
-      $vitalidade, $produtividade, $qtde_ovos,
+      $semana, $qtde_galinhas, $qtde_mortes, $qtde_ovos,
       $quem, $obs
     ]);
 

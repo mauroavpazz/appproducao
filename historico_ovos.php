@@ -6,6 +6,37 @@ require __DIR__.'/config_appproducao.php';
 $usuario = htmlspecialchars($_SESSION['usuario'], ENT_QUOTES, 'UTF-8');
 $nivel   = $_SESSION['nivel_acesso'];
 
+$status_filtro = $_GET['status'] ?? 'Todos';
+$prioridade_filtro = $_GET['prioridade'] ?? 'Todas';
+$ordenar_por = $_GET['ordenar_por'] ?? 'data_referencia';
+$ordem = $_GET['ordem'] ?? 'ASC';
+$busca = trim($_GET['busca'] ?? '');
+$mensagem_erro = '';
+
+$where_clauses = [];
+$params = [];
+
+// Filtro de busca
+if (!empty($busca)) {
+    $where_clauses[] = "(h.observacoes LIKE :busca OR h.quem_registrou LIKE :busca)";
+    $params[':busca'] = "%$busca%";
+}
+
+// Exemplo de filtro de status (ajuste conforme os campos reais)
+if ($status_filtro !== 'Todos') {
+    $where_clauses[] = "h.status = :status";
+    $params[':status'] = $status_filtro;
+}
+
+// Exemplo de filtro de prioridade (ajuste conforme os campos reais)
+if ($prioridade_filtro !== 'Todas') {
+    $where_clauses[] = "h.prioridade = :prioridade";
+    $params[':prioridade'] = $prioridade_filtro;
+}
+
+$ordenar_por_validos = ['id', 'data_referencia', 'ts_registro', 'setor', 'galpao', 'raca', 'semana', 'qtde_galinhas', 'qtde_mortes', 'vitalidade', 'produtividade', 'qtde_ovos', 'quem_registrou'];
+$ordem_validas = ['ASC', 'DESC'];
+
 $sql = "
   SELECT h.id, h.data_referencia, h.ts_registro,
          s.nome AS setor, g.nome AS galpao, r.nome AS raca,
@@ -16,9 +47,20 @@ $sql = "
     JOIN setores s ON h.setor_id = s.id
     JOIN galpoes g ON h.galpao_id = g.id
     JOIN racas r ON h.raca_id = r.id
-   ORDER BY h.ts_registro DESC
 ";
-$stmt = $pdoApp->query($sql);
+
+if (!empty($where_clauses)) {
+    $sql .= " WHERE " . implode(" AND ", $where_clauses);
+}
+
+if (in_array($ordenar_por, $ordenar_por_validos) && in_array($ordem, $ordem_validas)) {
+    $sql .= " ORDER BY h." . $ordenar_por . " " . $ordem;
+} else {
+    $sql .= " ORDER BY h.data_referencia ASC";
+}
+
+$stmt = $pdoApp->prepare($sql);
+$stmt->execute($params);
 $relatorios = $stmt->fetchAll(PDO::FETCH_ASSOC);
 // $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
@@ -64,7 +106,39 @@ $relatorios = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
   <div class="app-container">
     <h1>Histórico de Relatórios de Ovos</h1>
-    <!-- <a href="csv_export.php" class="button">Download CSV</a> -->
+    <form action="historico_ovos.php" method="GET" class="filter-form">
+            <div class="filter-group">
+                <label for="ordenar_por">Ordenar por:</label>
+                <select name="ordenar_por" id="ordenar_por">
+                    <option value="id" <?php if ($ordenar_por === 'id') echo 'selected'; ?>>ID</option>
+                    <option value="data_referencia" <?php if ($ordenar_por === 'data_referencia') echo 'selected'; ?>>Data Ref.</option>
+                    <option value="semana" <?php if ($ordenar_por === 'semana') echo 'selected'; ?>>Semana</option>
+                    <option value="qtde_galinhas" <?php if ($ordenar_por === 'qtde_galinhas') echo 'selected'; ?>>Galinhas</option>
+                    <option value="qtde_mortes" <?php if ($ordenar_por === 'qtde_mortes') echo 'selected'; ?>>Mortes</option>
+                    <option value="vitalidade" <?php if ($ordenar_por === 'vitalidade') echo 'selected'; ?>>Vitalidade</option>
+                    <option value="produtividade" <?php if ($ordenar_por === 'produtividade') echo 'selected'; ?>>Produtividade</option>
+                    <option value="qtde_ovos" <?php if ($ordenar_por === 'qtde_ovos') echo 'selected'; ?>>Ovos</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label for="ordem">Ordem:</label>
+                <select name="ordem" id="ordem">
+                    <option value="ASC" <?php if ($ordem === 'ASC') echo 'selected'; ?>>Crescente</option>
+                    <option value="DESC" <?php if ($ordem === 'DESC') echo 'selected'; ?>>Decrescente</option>
+                </select>
+            </div>
+
+            <div class="filter-group search-group">
+                <label for="busca">Buscar:</label>
+                <input type="text" name="busca" id="busca" value="<?php echo htmlspecialchars($busca); ?>" placeholder="Título ou Descrição">
+            </div>
+
+            <button type="submit">Filtrar</button>
+            <div class="links">
+            <a href="historico_ovos.php" class="limpar_filtro">Limpar Filtros</a>
+            </div>
+        </form>
     <div class="table-wrapper">
       <table>
         <thead>
@@ -81,7 +155,7 @@ $relatorios = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <th>Vitalidade</th>
             <th>Produtividade</th>
             <th>Ovos</th>
-            <th>Quem</th>
+            <th>Usuário</th>
             <th>Obs.</th>
             <th>PDF</th>
           </tr>
@@ -98,8 +172,8 @@ $relatorios = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <td><?=$r['semana']?></td>
             <td><?=$r['qtde_galinhas']?></td>
             <td><?=$r['qtde_mortes']?></td>
-            <td><?=number_format(($r['qtde_galinhas'] / ($r['qtde_galinhas'] + $r['qtde_mortes']))*100,2,',','.')?>%</td>
-            <td><?=number_format(($r['qtde_ovos'] / $r['qtde_galinhas'])*100,2,',','.')?>%</td>
+            <td><?=$r['vitalidade']?>%</td>
+            <td><?=$r['produtividade']?>%</td>
             <td><?=$r['qtde_ovos']?></td>
             <td><?=htmlspecialchars($r['quem_registrou'])?></td>
             <td><?=htmlspecialchars($r['observacoes'])?></td>
